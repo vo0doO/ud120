@@ -6,7 +6,7 @@
     готов к обучению алгоритм склеарн
 
     n--no. пар ключ-значение в диктонарном
-    k--no. of features being extracted
+    k--no. извлекаемых объектов
 
     словарные ключи - это имена людей в наборе данных
     значения словаря являются словарями, где каждый
@@ -18,8 +18,8 @@
     features--this для чего предназначен targetFeatureSplit
 
     так что, если вы хотите иметь poi label как цель,
-    и features Вы хотите использовать это person's
-    salary and bonus, here's what you would do:
+    и features вы хотите использовать это person's
+    salary and bonus, вот что вы могли бы сделать:
 
     feature_list = ["poi", "salary", "bonus"] 
     data_array = featureFormat( data_dictionary, feature_list )
