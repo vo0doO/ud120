@@ -1,52 +1,52 @@
 #!/usr/bin/python
 
 """ 
-    A general tool for converting data from the
-    dictionary format to an (n x k) python list that's
-    ready for training an sklearn algorithm
-    n--no. of key-value pairs in dictonary
-    k--no. of features being extracted
-    dictionary keys are names of persons in dataset
-    dictionary values are dictionaries, where each
-        key-value pair in the dict is the name
-        of a feature, and its value for that person
-    In addition to converting a dictionary to a numpy
-    array, you may want to separate the labels from the
-    features--this is what targetFeatureSplit is for
-    so, if you want to have the poi label as the target,
-    and the features you want to use are the person's
-    salary and bonus, here's what you would do:
-    feature_list = ["poi", "salary", "bonus"]
-    data_array = featureFormat( data_dictionary, feature_list )
-    label, features = targetFeatureSplit(data_array)
-    the line above (targetFeatureSplit) assumes that the
-    label is the _first_ item in feature_list--very important
-    that poi is listed first!
+    Общий инструмент для преобразования данных из
+    формат словаря в список Python (n x k), который
+    готов для обучения алгоритму sklearn
+    п - нет. пар ключ-значение в словаре
+    к - нет. извлекаемых функций
+    ключи словаря - это имена людей в наборе данных
+    значения словаря - это словари, где каждый
+        пара ключ-значение в dict - это имя
+        функции и ее ценность для этого человека
+    Помимо преобразования словаря в numpy
+    массив, вы можете отделить метки от
+    features - это то, для чего предназначен targetFeatureSplit
+    Итак, если вы хотите использовать метку poi в качестве цели,
+    а функции, которые вы хотите использовать, принадлежат человеку
+    зарплата и бонус, вот что бы вы сделали:
+    feature_list = ["poi", "зарплата", "бонус"]
+    data_array = featureFormat (словарь_данных, список_список)
+    метка, features = targetFeatureSplit (массив_данных)
+    строка выше (targetFeatureSplit) предполагает, что
+    label - это _первый_ элемент в feature_list - очень важно
+    этот пои указан первым!
 """
 
 
 import numpy as np
 
 def featureFormat( dictionary, features, remove_NaN=True, remove_all_zeroes=True, remove_any_zeroes=False, sort_keys = False):
-    """ convert dictionary to numpy array of features
-        remove_NaN = True will convert "NaN" string to 0.0
-        remove_all_zeroes = True will omit any data points for which
-            all the features you seek are 0.0
-        remove_any_zeroes = True will omit any data points for which
-            any of the features you seek are 0.0
-        sort_keys = True sorts keys by alphabetical order. Setting the value as
-            a string opens the corresponding pickle file with a preset key
-            order (this is used for Python 3 compatibility, and sort_keys
-            should be left as False for the course mini-projects).
-        NOTE: first feature is assumed to be 'poi' and is not checked for
-            removal for zero or missing values.
+    """ преобразовать словарь в массив функций
+        remove_NaN = True преобразует строку «NaN» в 0,0
+        remove_all_zeroes = True будет опускать любые точки данных, для которых
+            все функции, которые вы ищете, - 0,0
+        remove_any_zeroes = True будет опускать любые точки данных, для которых
+            любая из функций, которые вы ищете, - 0,0
+        sort_keys = True сортирует ключи в алфавитном порядке. Установка значения как
+            строка открывает соответствующий файл рассола с заданным ключом
+            порядок (используется для совместимости с Python 3, а sort_keys
+            следует оставить False для мини-проектов курса).
+        ПРИМЕЧАНИЕ: первая функция считается poi и не проверяется на
+            удаление нулевых или отсутствующих значений.
     """
 
 
     return_list = []
 
-    # Key order - first branch is for Python 3 compatibility on mini-projects,
-    # second branch is for compatibility on final project.
+    # Порядок ключей - первая ветка предназначена для совместимости с Python 3 в мини-проектах,
+    # вторая ветвь предназначена для совместимости в финальном проекте.
     if isinstance(sort_keys, str):
         import pickle
         keys = pickle.load(open(sort_keys, "rb"))
@@ -68,28 +68,28 @@ def featureFormat( dictionary, features, remove_NaN=True, remove_all_zeroes=True
                 value = 0
             tmp_list.append( float(value) )
 
-        # Logic for deciding whether or not to add the data point.
+        # Логика для принятия решения о добавлении точки данных.
         append = True
-        # exclude 'poi' class as criteria.
+        # исключить класс poi в качестве критерия.
         if features[0] == 'poi':
             test_list = tmp_list[1:]
         else:
             test_list = tmp_list
-        ### if all features are zero and you want to remove
-        ### data points that are all zero, do that here
+        ### если все функции равны нулю и вы хотите удалить
+        ### точки данных, которые все равны нулю, сделайте это здесь
         if remove_all_zeroes:
             append = False
             for item in test_list:
                 if item != 0 and item != "NaN":
                     append = True
                     break
-        ### if any features for a given data point are zero
-        ### and you want to remove data points with any zeroes,
-        ### handle that here
+        ### если какие-либо функции для данной точки данных равны нулю
+        ### и вы хотите удалить точки данных с любыми нулями,
+        ### справиться с этим здесь
         if remove_any_zeroes:
             if 0 in test_list or "NaN" in test_list:
                 append = False
-        ### Append the data point if flagged for addition.
+        ### Добавьте точку данных, если она отмечена для добавления.
         if append:
             return_list.append( np.array(tmp_list) )
 
@@ -98,13 +98,13 @@ def featureFormat( dictionary, features, remove_NaN=True, remove_all_zeroes=True
 
 def targetFeatureSplit( data ):
     """
-        given a numpy array like the one returned from
-        featureFormat, separate out the first feature
-        and put it into its own list (this should be the
-        quantity you want to predict)
-        return targets and features as separate lists
-        (sklearn can generally handle both lists and numpy arrays as
-        input formats when training/predicting)
+        учитывая массив numpy, подобный тому, который возвращается из
+        featureFormat, выделите первую функцию
+        и поместите его в отдельный список (это должен быть
+        количество, которое вы хотите предсказать)
+        возвращать цели и функции в виде отдельных списков
+        (sklearn обычно может обрабатывать как списки, так и массивы numpy как
+        форматы ввода при обучении / прогнозировании)
     """
 
     target = []

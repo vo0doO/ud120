@@ -9,8 +9,8 @@ from outliers.outlier_cleaner import outlierCleaner
 
 
 ### загрузить некоторые данные практики с выбросами в нем
-ages = pickle.load( open("practice_outliers_ages.pkl", "r") )
-net_worths = pickle.load( open("practice_outliers_net_worths.pkl", "r") )
+ages = pickle.load( open("practice_outliers_ages_dos.pkl", "r+b") )
+net_worths = pickle.load( open("practice_outliers_net_worths_dos.pkl", "r+b") )
 
 
 
@@ -25,9 +25,9 @@ ages_train, ages_test, net_worths_train, net_worths_test = train_test_split(ages
 
 ### заполните регрессию здесь! Назовите объект регрессии reg, чтобы
 ### приведенный ниже код построения графика работает, и вы можете увидеть, как выглядит ваша регрессия
-
-
-
+from sklearn.linear_model import LinearRegression
+reg = LinearRegression()
+reg.fit(ages_train, net_worths_train)
 
 
 
@@ -71,7 +71,7 @@ if len(cleaned_data) > 0:
     plt.xlabel("ages")
     plt.ylabel("net worths")
     plt.show()
-
+    stop = "stop"
 
 else:
     print("outlierCleaner() возвращает пустой список, переустановка не требуется")

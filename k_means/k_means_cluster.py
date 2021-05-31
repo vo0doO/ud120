@@ -13,20 +13,23 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
+from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
 
 
 
 
 def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
-    """ some plotting code designed to help you visualize your clusters """
+    """ какой-то код построения, предназначенный для того, чтобы помочь вам визуализировать ваши кластеры """
 
-    ### plot each cluster with a different color--add more colors for
-    ### drawing more than five clusters
+    ### Участок каждый кластер с другим цветом - добавь больше цветов для
+    ### Рисование более пяти кластеров
     colors = ["b", "c", "k", "m", "g"]
     for ii, pp in enumerate(pred):
         plt.scatter(features[ii][0], features[ii][1], color = colors[pred[ii]])
 
-    ### if you like, place red stars over points that are POIs (just for funsies)
+    ### Если вам нравится, поместите красные звезды над точками, которые являются POIS (только для знакомых)
     if mark_poi:
         for ii, pp in enumerate(pred):
             if poi[ii]:
@@ -39,38 +42,43 @@ def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature
 
 
 ### load in the dict of dicts containing all the data on each person in the dataset
-data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r") )
-### there's an outlier--remove it! 
+data_dict = pickle.load( open("../final_project/final_project_dataset_dos.pkl", "rb") )
+### Есть выброс - удалить его!
 data_dict.pop("TOTAL", 0)
 
 
-### the input features we want to use 
-### can be any key in the person-level dictionary (salary, director_fees, etc.) 
+### Функции ввода, которые мы хотим использовать
+### Может быть любой ключ в словаре на уровне человека (заработная плата, режиссер_Fees и т. Д.)
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+# feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
 
-### in the "clustering with 3 features" part of the mini-project,
-### you'll want to change this line to 
+### В «кластеризации с 3 функциями» часть мини-проекта,
+### Вы захотите изменить эту строку в
 ### for f1, f2, _ in finance_features:
-### (as it's currently written, the line below assumes 2 features)
+### (Как сейчас написано, линия ниже предполагает 2 особенности)
 for f1, f2 in finance_features:
     plt.scatter( f1, f2 )
 plt.show()
 
-### cluster here; create predictions of the cluster labels
-### for the data and store them to a list called pred
+### кластер здесь; Создать прогнозы кластерных меток
+### Для данных и хранить их в список под названием PRE
+from sklearn.cluster import KMeans
+
+kmeans = KMeans(n_clusters=2).fit(finance_features)
+pred = kmeans.predict(finance_features)
 
 
 
-
-### rename the "name" parameter when you change the number of features
-### so that the figure gets saved to a different file
+### Переименуйте параметр «Имя», когда вы измените количество функций
+### так что цифра сохраняется в другой файл
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
+    Draw(pred, finance_features, poi, mark_poi=False, name="clusters2.pdf", f1_name=feature_1, f2_name=feature_2)
+    stop = "s"
 except NameError:
-    print "no predictions object named pred found, no clusters to plot"
+    print("no predictions object named pred found, no clusters to plot")

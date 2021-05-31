@@ -25,6 +25,20 @@ features_list = ["bonus", "salary"]
 data = featureFormat( dictionary, features_list, remove_any_zeroes=True, sort_keys = '../tools/python2_lesson06_keys_dos.pkl')
 target, features = targetFeatureSplit( data )
 
+from sklearn.model_selection import train_test_split
+feature_train, feature_test, target_train, target_test = train_test_split(features, target, test_size=0.5, random_state=42)
+train_color = "b"
+test_color = "r"
+
+
+
+### Ваш регресс идет сюда!
+### Пожалуйста, назовите его reg, чтобы приведенный ниже код построения подобрал его и
+### правильно рисует. Не забудьте изменить test_color выше с "b" на
+### «r», чтобы отличать тренировочные точки от контрольных.
+from sklearn.linear_model import LinearRegression
+reg = LinearRegression()
+reg.fit(feature_train, target_train)
 ### разделение обучения и тестирования необходимо в регрессии, как и при классификации
 from sklearn.model_selection import train_test_split
 feature_train, feature_test, target_train, target_test = train_test_split(features, target, test_size=0.5, random_state=42)

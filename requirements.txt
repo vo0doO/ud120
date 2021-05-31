@@ -4,3 +4,4 @@ pandas
 numpy==1.20.1
 scikit-learn
 scipy
+nltk==3.6.2

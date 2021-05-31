@@ -4,11 +4,11 @@ from nltk.stem.snowball import SnowballStemmer
 import string
 
 def parseOutText(f):
-    """ given an opened email file f, parse out all text below the
-        metadata block at the top
-        (in Part 2, you will also add stemming capabilities)
-        and return a string that contains all the words
-        in the email (space-separated) 
+    """ Учитывая открытый файл электронной почты F, анализируйте весь текст ниже
+        Метаданный блок на вершине
+        (В части 2 вы также будете добавлять возможности stemming)
+        и вернуть строку, которая содержит все слова
+        В электронном письме (отделен для пробела)
         
         example use case:
         f = open("email_file_name.txt", "r")
@@ -17,35 +17,35 @@ def parseOutText(f):
         """
 
 
-    f.seek(0)  ### go back to beginning of file (annoying)
+    f.seek(0)  ### Вернуться к началу файла (раздражает)
     all_text = f.read()
 
-    ### split off metadata
+    ### Разделить метаданные
     content = all_text.split("X-FileName:")
     words = ""
     if len(content) > 1:
-        ### remove punctuation
-        text_string = content[1].translate(string.maketrans("", ""), string.punctuation)
+        ### Удалить пунктуацию
+        text_string = content[1].translate(str.maketrans("", "", string.punctuation))
 
-        ### project part 2: comment out the line below
-        words = text_string
+        ### project part 2: Прокомментируйте линию ниже
+        # words = text_string
+        ### Разделите текстовую строку в отдельное слова, stem each word,
+        ### and append the stemmed word to words (убедитесь, что есть один
+        ### пространство между каждым stemmed word)
 
-        ### split the text string into individual words, stem each word,
-        ### and append the stemmed word to words (make sure there's a single
-        ### space between each stemmed word)
-        
+        stemmer = SnowballStemmer("english")
+        words = ' '.join([stemmer.stem(word) for word in text_string.split()])
 
 
 
 
     return words
-
     
 
 def main():
     ff = open("../text_learning/test_email.txt", "r")
     text = parseOutText(ff)
-    print text
+    print(text)
 
 
 

@@ -3,18 +3,30 @@
 
 def outlierCleaner(predictions, ages, net_worths):
     """
-        Clean away the 10% of points that have the largest
-        residual errors (difference between the prediction
-        and the actual net worth).
+        Удалите 10% точек с наибольшим
+        остаточные ошибки (разница между прогнозом
+        и фактическая чистая стоимость).
 
-        Return a list of tuples named cleaned_data where 
-        each tuple is of the form (age, net_worth, error).
+        Вернуть список кортежей с именем cleaned_data, где
+        каждый кортеж имеет форму (возраст, чистая_доходность, ошибка).
     """
     
     cleaned_data = []
 
-    ### your code goes here
+    ### ваш код идет сюда
+    max_errors = -80
+    count = 0
+    max_count = len(predictions)
+    while count < max_count:
 
-    
+        errors = net_worths[count][0]-predictions[count][0]
+
+        if errors < max_errors:
+            count = count + 1
+            continue
+
+        cleaned_data.append((ages[count][0], net_worths[count][0], errors))
+        count = count + 1
+
     return cleaned_data
 
