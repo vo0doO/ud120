@@ -46,7 +46,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         ### Используйте ParseOutText, чтобы извлечь текст из открытого электронного письма
         text_string = parseOutText(email)
         ### использовать str.replace() Удалить любые случаи слов
-        rep_list = ["sara", "shackleton", "chris", "germani"]
+        rep_list = ["sara", "shackleton", "chris", "germani", "sshacklensf", "cgermannsf"]
         for word in rep_list:
             text_string = text_string.replace(word, "")
 
@@ -71,4 +71,3 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 vectorizer = TfidfVectorizer(sublinear_tf=True, stop_words="english", lowercase=True)
 bag_of_words = vectorizer.fit_transform(word_data)
 print(len(vectorizer.get_feature_names()))
-s="s"

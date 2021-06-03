@@ -13,17 +13,20 @@
 import pickle
 import sys
 
-sys.path.append("..\\tools\\")
+sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
-data_dict = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
+data_dict = pickle.load(open("../final_project/final_project_dataset_dos.pkl", "rb"))
 
 ### первый элемент-это наши метки, любые добавленные элементы являются предиктором
 ### особенности. Держите это то же самое для мини-проекта, но вы будете
 ### есть другой список функций, когда вы делаете окончательный проект.
 features_list = ["poi", "salary"]
 
-data = featureFormat(data_dict, features_list)
+data = featureFormat(data_dict, features_list, sort_keys = '../tools/python2_lesson13_keys_dos.pkl')
 labels, features = targetFeatureSplit(data)
 
-### it's all yours from here forward!
+### с этого момента все твое!
+
+
+s = "s"
